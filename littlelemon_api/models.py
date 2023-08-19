@@ -44,4 +44,4 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
     class Meta:
-        unique_together = ("order", "user")
+        unique_together = ("order", "menuitem")
