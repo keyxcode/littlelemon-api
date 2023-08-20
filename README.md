@@ -9,7 +9,7 @@
 
 - [ ] The admin can add categories
 
-- [ ] Managers can log in 
+- [x] Managers can log in 
 
 - [ ] Managers can update the item of the day
 
@@ -21,9 +21,9 @@
 
 - [ ] The delivery crew can update an order as delivered
 
-- [ ] Customers can register
+- [x] Customers can register
 
-- [ ] Customers can log in using their username and password and get access tokens
+- [x] Customers can log in using their username and password and get access tokens
 
 - [ ] Customers can browse all categories 
 
@@ -45,17 +45,21 @@
 
 ### Base URL: `/api`
 
-### Superuser
+### Credentials
 - username: super
 - email: super@gmail.com
 - pw: 123
+
+- username: test
+- email: test@gmail.com
+- pw: test5678
 
 ### Note
 - User token is required for all features of the API with the exception of registering and viewing the menu
 
 ### User registration and token generation endpoints
 
-`/auth/users`
+`/users`
 - GET
     - Anonymous: `401 Forbidden`
     - Customer and Manager: Retrieves requesting user information
@@ -67,12 +71,12 @@
         - password
         - email
 
-`/auth/users/me`
+`/users/me`
 - GET
     - Anyone with a valid User token
     - Displays only the current user information
 
-`/auth/token/login`
+`/token/login`
 - POST
     - Generates access tokens that can be used in other API calls
     - Body:
