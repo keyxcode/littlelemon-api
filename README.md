@@ -85,22 +85,8 @@
 
 ---
 
-### Menu-items endpoints
-`menu-items`
-- GET
-    - Customer, Delivery Crew, Manager: `200 Ok` Lists all menu items
-- POST
-    - Customer, Delivery Crew: `403 Unauthorized`
-    - Manager: `201 Created` Creates a new menu item
-
-`menu-items/{menuItem}`
-- GET
-    - Customer, Delivery Crew, Manager: `200 OK` Lists single menu item
-- PUT, PATCH, DELETE
-    - Customer, Delivery Crew: `403 Unauthorized`
-    - Manager: Updates or deletes single menu item
----
 ### User group management endpoints
+
 `/groups/manager/users`
 - GET
     - Manager: Returns all managers
@@ -126,7 +112,26 @@
         - `404 Not found` if user is not found
 
 ---
+
+### Menu-items endpoints
+
+`menu-items`
+- GET
+    - Customer, Delivery Crew, Manager: `200 Ok` Lists all menu items
+- POST
+    - Customer, Delivery Crew: `403 Unauthorized`
+    - Manager: `201 Created` Creates a new menu item
+
+`menu-items/{menuItem}`
+- GET
+    - Customer, Delivery Crew, Manager: `200 OK` Lists single menu item
+- PUT, PATCH, DELETE
+    - Customer, Delivery Crew: `403 Unauthorized`
+    - Manager: Updates or deletes single menu item
+---
+
 ### Cart management endpoints
+
 `/cart/menu-items`
 - GET
     - Customer: Returns current items in the cart for the current user token
@@ -136,7 +141,9 @@
     - Customer: Deletes all menu items created by the current user token
 
 ---
+
 ### Order management endpoints
+
 `/orders`
 - GET
     - Customer: Returns all orders with order items created by this user
