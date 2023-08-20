@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
+from .serializers import UserSerializer
 
 
 # Create your views here.
@@ -12,7 +13,9 @@ from rest_framework import generics
 @permission_classes([IsAdminUser])
 def managers(request):
     if request.method == "GET":
-        managers = Group.objects.get(name="Manager")
+        users = User.objects.filter(groups__name="Manager")
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
 
     if request.method == "POST":
         username = request.data["username"]
