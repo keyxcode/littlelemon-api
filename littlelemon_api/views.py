@@ -45,3 +45,42 @@ def manager(request, pk):
     managers.user_set.remove(user)
 
     return Response({"message": f"removed user {user} from group Manager"})
+
+
+@api_view(["GET", "POST"])
+@permission_classes([IsAdminUser])
+def delivery_crews(request):
+    if request.method == "GET":
+        users = User.objects.filter(groups__name="Delivery Crew")
+        serializer = UserSerializer(users, many=True)
+
+        return Response(serializer.data)
+
+    if request.method == "POST":
+        username = request.POST.get("username", None)
+
+        if username:
+            user = get_object_or_404(User, username=username)
+            delivery_crews = Group.objects.get(name="Delivery Crew")
+            delivery_crews.user_set.add(user)
+
+            return Response(
+                {"message": f"assigned user {user} to group Delivery Crew"},
+                status=status.HTTP_201_CREATED,
+            )
+
+        return Response(
+            {"message": "missing username"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    return Response({"message": "unknown error"})
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAdminUser])
+def delivery_crew(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    delivery_crews = Group.objects.get(name="Delivery Crew")
+    delivery_crews.user_set.remove(user)
+
+    return Response({"message": f"removed user {user} from group Delivery Crew"})
