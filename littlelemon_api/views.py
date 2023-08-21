@@ -10,7 +10,7 @@ from .serializers import UserSerializer
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAdminUser])
-def managers(request):
+def managers_list(request):
     if request.method == "GET":
         users = User.objects.filter(groups__name="Manager")
         serializer = UserSerializer(users, many=True)
@@ -39,7 +39,7 @@ def managers(request):
 
 @api_view(["DELETE"])
 @permission_classes([IsAdminUser])
-def manager(request, pk):
+def managers_details(request, pk):
     user = get_object_or_404(User, pk=pk)
     managers = Group.objects.get(name="Manager")
     managers.user_set.remove(user)
@@ -49,7 +49,7 @@ def manager(request, pk):
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAdminUser])
-def delivery_crews(request):
+def delivery_crew_list(request):
     if request.method == "GET":
         users = User.objects.filter(groups__name="Delivery Crew")
         serializer = UserSerializer(users, many=True)
@@ -61,8 +61,8 @@ def delivery_crews(request):
 
         if username:
             user = get_object_or_404(User, username=username)
-            delivery_crews = Group.objects.get(name="Delivery Crew")
-            delivery_crews.user_set.add(user)
+            delivery_crew = Group.objects.get(name="Delivery Crew")
+            delivery_crew.user_set.add(user)
 
             return Response(
                 {"message": f"assigned user {user} to group Delivery Crew"},
@@ -78,9 +78,9 @@ def delivery_crews(request):
 
 @api_view(["DELETE"])
 @permission_classes([IsAdminUser])
-def delivery_crew(request, pk):
+def delivery_crew_details(request, pk):
     user = get_object_or_404(User, pk=pk)
-    delivery_crews = Group.objects.get(name="Delivery Crew")
-    delivery_crews.user_set.remove(user)
+    delivery_crew = Group.objects.get(name="Delivery Crew")
+    delivery_crew.user_set.remove(user)
 
     return Response({"message": f"removed user {user} from group Delivery Crew"})

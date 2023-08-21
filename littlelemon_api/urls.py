@@ -4,8 +4,8 @@ from . import views
 urlpatterns = [
     path("", include("djoser.urls")),
     path("", include("djoser.urls.authtoken")),
-    path("groups/manager/users", views.managers),
-    path("groups/manager/users/<int:pk>", views.manager),
-    path("groups/delivery-crew/users", views.delivery_crews),
-    path("groups/delivery-crew/users/<int:pk>", views.delivery_crew),
+    path("groups/manager/users", views.managers_list),
+    path("groups/manager/users/<int:pk>", views.managers_details),
+    path("groups/delivery-crew/users", views.delivery_crew_list),
+    path("groups/delivery-crew/users/<int:pk>", views.delivery_crew_details),
 ]
