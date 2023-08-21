@@ -35,3 +35,13 @@ def managers(request):
         )
 
     return Response({"message": "unknown error"})
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAdminUser])
+def manager(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    managers = Group.objects.get(name="Manager")
+    managers.user_set.remove(user)
+
+    return Response({"message": f"removed user {user} from group Manager"})
