@@ -8,4 +8,5 @@ urlpatterns = [
     path("groups/manager/users/<int:pk>", views.managers_details),
     path("groups/delivery-crew/users", views.delivery_crew_list),
     path("groups/delivery-crew/users/<int:pk>", views.delivery_crew_details),
+    path("menu-items", views.MenuItemsList.as_view()),
 ]
