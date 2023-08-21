@@ -9,4 +9,5 @@ urlpatterns = [
     path("groups/delivery-crew/users", views.delivery_crew_list),
     path("groups/delivery-crew/users/<int:pk>", views.delivery_crew_details),
     path("menu-items", views.MenuItemsList.as_view()),
+    path("categories", views.CategoryList.as_view()),
 ]

@@ -5,9 +5,9 @@ from rest_framework import generics, status
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 
-from .serializers import UserSerializer, MenuItemSerializer
+from .serializers import UserSerializer, MenuItemSerializer, CategorySerializer
 from .permissions import IsManager, IsDeliveryCrew
-from .models import MenuItem
+from .models import MenuItem, Category
 
 
 @api_view(["GET", "POST"])
@@ -87,6 +87,11 @@ def delivery_crew_details(request, pk):
     delivery_crew.user_set.remove(user)
 
     return Response({"message": f"removed user {user} from group Delivery Crew"})
+
+
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 
 class MenuItemsList(generics.ListCreateAPIView):
