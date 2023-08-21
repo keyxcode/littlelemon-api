@@ -13,7 +13,7 @@
 
 - [ ] Managers can update the item of the day
 
-- [ ] Managers can assign users to the delivery crew
+- [x] Managers can assign users to the delivery crew
 
 - [ ] Managers can assign orders to the delivery crew
 
@@ -52,6 +52,18 @@
 
 - username: test
 - email: test@gmail.com
+- pw: test5678
+
+- username: customer
+- email: customer@gmail.com
+- pw: test5678
+
+- username: manager
+- email: manager@gmail.com
+- pw: test5678
+
+- username: delivery
+- email: delivery@gmail.com
 - pw: test5678
 
 ### Note

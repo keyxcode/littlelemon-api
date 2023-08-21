@@ -6,6 +6,7 @@ from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 
 from .serializers import UserSerializer
+from .permissions import IsManager, IsDeliveryCrew
 
 
 @api_view(["GET", "POST"])
@@ -48,8 +49,9 @@ def managers_details(request, pk):
 
 
 @api_view(["GET", "POST"])
-@permission_classes([IsAdminUser])
+@permission_classes([IsAdminUser | IsManager])
 def delivery_crew_list(request):
+    print(request.user)
     if request.method == "GET":
         users = User.objects.filter(groups__name="Delivery Crew")
         serializer = UserSerializer(users, many=True)
@@ -77,7 +79,7 @@ def delivery_crew_list(request):
 
 
 @api_view(["DELETE"])
-@permission_classes([IsAdminUser])
+@permission_classes([IsAdminUser | IsManager])
 def delivery_crew_details(request, pk):
     user = get_object_or_404(User, pk=pk)
     delivery_crew = Group.objects.get(name="Delivery Crew")
