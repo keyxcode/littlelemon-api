@@ -1,11 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 # Create your models here.
 class Category(models.Model):
-    slug = models.SlugField()
-    title = models.CharField(max_length=255, db_index=True)
+    slug = models.SlugField(unique=True)
+    title = models.CharField(max_length=255, db_index=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class MenuItem(models.Model):

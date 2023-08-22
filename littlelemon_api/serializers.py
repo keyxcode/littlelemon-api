@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["slug", "title"]
+        fields = ["title"]
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
