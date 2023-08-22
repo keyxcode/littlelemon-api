@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework import generics, status
+from rest_framework import viewsets
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 
@@ -100,10 +101,6 @@ class CategoryList(generics.ListCreateAPIView):
         return super(CategoryList, self).get_permissions()
 
 
-class MenuItemsList(generics.ListCreateAPIView):
+class MenuItemsViewsSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
-
-
-class MenuItemsDetails(generics.RetrieveUpdateDestroyAPIView):
-    pass

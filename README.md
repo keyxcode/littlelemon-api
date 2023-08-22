@@ -126,7 +126,7 @@
     - Customer, Delivery Crew: `403 Unauthorized`
     - Manager: `201 Created` Creates a new menu item
 
-`menu-items/{menuItem}`
+`menu-items/{itemId}`
 - GET
     - Customer, Delivery Crew, Manager: `200 OK` Lists single menu item
 - PUT, PATCH, DELETE

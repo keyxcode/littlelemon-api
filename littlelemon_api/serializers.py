@@ -19,7 +19,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuItem
-        fields = ["title", "price", "featured", "category", "category"]
+        fields = ["id", "title", "price", "featured", "category", "category"]
+        read_only_fields = ["id"]
 
     def to_representation(self, obj):
         self.fields["category"] = CategorySerializer()

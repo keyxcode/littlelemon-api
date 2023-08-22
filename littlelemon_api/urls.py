@@ -8,6 +8,19 @@ urlpatterns = [
     path("groups/manager/users/<int:pk>", views.managers_details),
     path("groups/delivery-crew/users", views.delivery_crew_list),
     path("groups/delivery-crew/users/<int:pk>", views.delivery_crew_details),
-    path("menu-items", views.MenuItemsList.as_view()),
     path("categories", views.CategoryList.as_view()),
+    path(
+        "menu-items", views.MenuItemsViewsSet.as_view({"get": "list", "post": "create"})
+    ),
+    path(
+        "menu-items/<int:pk>",
+        views.MenuItemsViewsSet.as_view(
+            {
+                "get": "retrieve",
+                "put": "update",
+                "patch": "partial_update",
+                "delete": "destroy",
+            }
+        ),
+    ),
 ]
