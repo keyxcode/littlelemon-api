@@ -45,27 +45,6 @@
 
 ### Base URL: `/api`
 
-### Credentials
-- username: super
-- email: super@gmail.com
-- pw: 123
-
-- username: test
-- email: test@gmail.com
-- pw: test5678
-
-- username: customer
-- email: customer@gmail.com
-- pw: test5678
-
-- username: manager
-- email: manager@gmail.com
-- pw: test5678
-
-- username: delivery
-- email: delivery@gmail.com
-- pw: test5678
-
 ### Note
 - User token is required for all features of the API with the exception of registering and viewing the menu
 
