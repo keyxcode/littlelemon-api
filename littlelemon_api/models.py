@@ -6,7 +6,7 @@ from django.utils.text import slugify
 # Create your models here.
 class Category(models.Model):
     slug = models.SlugField(unique=True)
-    title = models.CharField(max_length=255, db_index=True, unique=True)
+    title = models.CharField(max_length=255, db_index=True, unique=True, blank=False)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
