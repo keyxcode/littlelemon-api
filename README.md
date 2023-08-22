@@ -53,10 +53,10 @@
 `/users`
 - GET
     - Anonymous: `401 Forbidden`
-    - Customer and Manager: Retrieves requesting user information
-    - Superuser: Retrieves all users information
+    - Admin: Retrieves all users information
+    - Other authenticated users: Retrieves requesting user information
 - POST
-    - No role required
+    - No role required: Registers a new user
     - Body:
         - username
         - password
@@ -64,8 +64,7 @@
 
 `/users/me`
 - GET
-    - Anyone with a valid User token
-    - Displays only the current user information
+    - All authenticated users: Displays only the current user information
 
 `/token/login`
 - POST
@@ -92,15 +91,29 @@
 
 `/groups/delivery-crew/users`
 - GET
-    - Manager: returns all delivery crew
+    - Manager: Returns all delivery crew members
 - POST
     - Manager: `201 Created` Assigns the user in the payload to delivery crew group
+    - Body:
+        - username
 
 `/groups/delivery-crew/users/{userId}`
 - DELETE
     - Manager:
-        - `200 OK` if deletion is okay
+        - `200 OK` removes user from delivery crew
         - `404 Not found` if user is not found
+
+---
+
+### Categories endpoints
+
+`categories`
+- GET
+    - All authenticated users: `200 Ok` Lists all categories
+- POST
+    - Admin: `201 Created` Creates a new category item
+    - Body:
+        - title
 
 ---
 
