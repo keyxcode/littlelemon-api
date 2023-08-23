@@ -104,3 +104,12 @@ class CategoryList(generics.ListCreateAPIView):
 class MenuItemsViewsSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
+
+    def get_permissions(self):
+        if self.action == "list" or self.action == "retrieve":
+            permission_classes = []
+        elif self.action == "create":
+            permission_classes = [IsAdminUser | IsManager]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]

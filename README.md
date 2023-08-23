@@ -121,17 +121,18 @@
 
 `menu-items`
 - GET
-    - Customer, Delivery Crew, Manager: `200 Ok` Lists all menu items
+    - No role required: `200 Ok` Lists all menu items
 - POST
-    - Customer, Delivery Crew: `403 Unauthorized`
     - Manager: `201 Created` Creates a new menu item
+    - Everyone else: `403 Unauthorized`
 
 `menu-items/{itemId}`
 - GET
-    - Customer, Delivery Crew, Manager: `200 OK` Lists single menu item
+    - No role required: `200 OK` Lists single menu item
 - PUT, PATCH, DELETE
-    - Customer, Delivery Crew: `403 Unauthorized`
     - Manager: Updates or deletes single menu item
+    - Everyone else: `403 Unauthorized`
+
 ---
 
 ### Cart management endpoints
