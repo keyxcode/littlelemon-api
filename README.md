@@ -31,7 +31,7 @@
 
 - [x] Customers can browse menu items by category
 
-- [ ] Customers can paginate menu items
+- [x] Customers can paginate menu items
 
 - [x] Customers can sort menu items by price
 
