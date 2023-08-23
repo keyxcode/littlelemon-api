@@ -29,7 +29,7 @@
 
 - [x] Customers can browse all the menu items at once
 
-- [ ] Customers can browse menu items by category
+- [x] Customers can browse menu items by category
 
 - [ ] Customers can paginate menu items
 
