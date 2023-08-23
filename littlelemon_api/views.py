@@ -104,6 +104,8 @@ class CategoryList(generics.ListCreateAPIView):
 class MenuItemsViewsSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
+    ordering_fields = ["price"]
+    search_fields = ["title", "category__title"]
 
     def get_permissions(self):
         if self.action == "list" or self.action == "retrieve":

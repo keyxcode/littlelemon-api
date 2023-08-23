@@ -5,13 +5,13 @@
 
 - [x] You can access the manager group with an admin token
 
-- [ ] The admin can add menu items 
+- [x] The admin can add menu items 
 
 - [x] The admin can add categories
 
 - [x] Managers can log in 
 
-- [ ] Managers can update the item of the day
+- [x] Managers can update the item of the day
 
 - [x] Managers can assign users to the delivery crew
 
@@ -27,13 +27,13 @@
 
 - [x] Customers can browse all categories 
 
-- [ ] Customers can browse all the menu items at once
+- [x] Customers can browse all the menu items at once
 
 - [ ] Customers can browse menu items by category
 
 - [ ] Customers can paginate menu items
 
-- [ ] Customers can sort menu items by price
+- [x] Customers can sort menu items by price
 
 - [ ] Customers can add menu items to the cart
 
