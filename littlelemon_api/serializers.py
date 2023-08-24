@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import MenuItem, Category, Cart
+from .models import MenuItem, Category, Cart, OrderItem, Order
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,3 +36,13 @@ class CartSerializer(serializers.ModelSerializer):
     def to_representation(self, obj):
         self.fields["menuitem"] = MenuItemSerializer()
         return super(CartSerializer, self).to_representation(obj)
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        pass
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        pass

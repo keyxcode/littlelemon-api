@@ -155,8 +155,7 @@
     - Managers: Returns all orders with order items by all users
     - Delivery Crew: Returns all orders with order items assigned to the delivery crew
 - POST
-    - Customer: Creates a new order item for the current user. Gets current cart items from the cart endpoints and adds those items to the order items table. Then deletes all items from the cart for this user.
-    - Managers: 
+    - All authenticated users: Creates a new order item for the current user. Gets current cart items from the cart endpoints and adds those items to the order items table. Then deletes all items from the cart for this user.
 
 `/orders/{orderId}`
 - GET

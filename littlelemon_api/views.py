@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework import generics, status, views
+from rest_framework import generics, status
 from rest_framework import viewsets
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
@@ -11,9 +11,11 @@ from .serializers import (
     MenuItemSerializer,
     CategorySerializer,
     CartSerializer,
+    OrderSerializer,
+    OrderItemSerializer,
 )
 from .permissions import IsManager, IsDeliveryCrew
-from .models import MenuItem, Category, Cart
+from .models import MenuItem, Category, Cart, Order, OrderItem
 
 
 @api_view(["GET", "POST"])
@@ -158,3 +160,42 @@ def cart_list(request):
     if request.method == "DELETE":
         Cart.objects.filter(user=request.user).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
+def order_list(request):
+    if request.method == "GET":
+        if (
+            request.user.groups.filter(name="Managers").exists()
+            or request.user.is_superuser
+        ):
+            orders = Order.objects.all()
+        elif request.user.groups.filter(name="Delivery Crew").exists():
+            orders = Order.objects.filter(delivery_crew=request.user)
+        else:
+            orders = Order.objects.filter(delivery_crew=request.user)
+
+        serialized_orders = OrderSerializer(orders, many=True)
+        return Response(serialized_orders.data, status=status.HTTP_200_OK)
+
+    if request.method == "POST":
+        cart = Cart.objects.filter(user=request.user)
+
+        if len(cart) == 0:
+            return Response(
+                {"message": "cart is empty"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+@api_view(["GET", "PUT", "PATCH", "DELETE"])
+@permission_classes([IsAuthenticated])
+def order_details(request):
+    if request.method == "GET":
+        pass
+    if request.method == "PUT":
+        pass
+    if request.method == "PATCH":
+        pass
+    if request.method == "DELETE":
+        pass
