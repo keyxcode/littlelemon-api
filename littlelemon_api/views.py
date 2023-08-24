@@ -6,9 +6,14 @@ from rest_framework import viewsets
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 
-from .serializers import UserSerializer, MenuItemSerializer, CategorySerializer
+from .serializers import (
+    UserSerializer,
+    MenuItemSerializer,
+    CategorySerializer,
+    CartSerializer,
+)
 from .permissions import IsManager, IsDeliveryCrew
-from .models import MenuItem, Category
+from .models import MenuItem, Category, Cart
 
 
 @api_view(["GET", "POST"])
@@ -115,3 +120,9 @@ class MenuItemsViewsSet(viewsets.ModelViewSet):
         else:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
+
+
+class CartList(generics.ListCreateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
