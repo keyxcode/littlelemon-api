@@ -35,9 +35,9 @@
 
 - [x] Customers can sort menu items by price
 
-- [ ] Customers can add menu items to the cart
+- [x] Customers can add menu items to the cart
 
-- [ ] Customers can access previously added items in the cart
+- [x] Customers can access previously added items in the cart
 
 - [ ] Customers can place orders
 

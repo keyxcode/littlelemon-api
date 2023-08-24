@@ -32,3 +32,7 @@ class CartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = ["id", "user", "menuitem", "quantity", "unit_price", "price"]
         read_only_fields = ["id", "user", "unit_price", "price"]
+
+    def to_representation(self, obj):
+        self.fields["menuitem"] = MenuItemSerializer()
+        return super(CartSerializer, self).to_representation(obj)
