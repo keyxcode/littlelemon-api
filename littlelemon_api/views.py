@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework import generics, status
+from rest_framework import generics, status, views
 from rest_framework import viewsets
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
@@ -122,7 +122,39 @@ class MenuItemsViewsSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
 
-class CartList(generics.ListCreateAPIView):
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
-    permission_classes = [IsAuthenticated]
+@api_view(["GET", "POST", "DELETE"])
+@permission_classes([IsAuthenticated])
+def cart_list(request):
+    if request.method == "GET":
+        cart_items = Cart.objects.filter(user=request.user)
+        serialized_cart_items = CartSerializer(cart_items, many=True)
+
+        return Response(serialized_cart_items.data)
+
+    if request.method == "POST":
+        serialized_item = CartSerializer(data=request.data)
+        serialized_item.is_valid(raise_exception=True)
+
+        item_pk = request.POST.get("menuitem")
+        quantity = request.POST.get("quantity")
+
+        menu_item = get_object_or_404(MenuItem, pk=item_pk)
+        unit_price = menu_item.price
+        price = unit_price * int(quantity)
+
+        try:
+            created_item = Cart.objects.create(
+                user=request.user,
+                menuitem=menu_item,
+                quantity=quantity,
+                unit_price=menu_item.price,
+                price=price,
+            )
+        except Exception as e:
+            return Response({"message": str(e)})
+
+        return Response(CartSerializer(created_item).data)
+
+    if request.method == "DELETE":
+        Cart.objects.filter(user=request.user).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
