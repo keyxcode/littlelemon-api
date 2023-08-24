@@ -174,7 +174,7 @@ def order_list(request):
         elif request.user.groups.filter(name="Delivery Crew").exists():
             orders = Order.objects.filter(delivery_crew=request.user)
         else:
-            orders = Order.objects.filter(delivery_crew=request.user)
+            orders = Order.objects.filter(user=request.user)
 
         serialized_orders = OrderSerializer(orders, many=True)
         return Response(serialized_orders.data, status=status.HTTP_200_OK)
@@ -186,6 +186,23 @@ def order_list(request):
             return Response(
                 {"message": "cart is empty"}, status=status.HTTP_400_BAD_REQUEST
             )
+
+        total = sum(cart_item.price for cart_item in cart)
+        order = Order.objects.create(user=request.user, status=False, total=total)
+        serialized_order = OrderSerializer(order)
+
+        for cart_item in cart:
+            OrderItem.objects.create(
+                order=order,
+                menuitem=cart_item.menuitem,
+                quantity=cart_item.quantity,
+                unit_price=cart_item.unit_price,
+                price=cart_item.price,
+            )
+
+        cart.delete()
+
+        return Response(serialized_order.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET", "PUT", "PATCH", "DELETE"])

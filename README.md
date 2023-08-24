@@ -17,7 +17,7 @@
 
 - [ ] Managers can assign orders to the delivery crew
 
-- [ ] The delivery crew can access orders assigned to them
+- [x] The delivery crew can access orders assigned to them
 
 - [ ] The delivery crew can update an order as delivered
 
@@ -39,7 +39,7 @@
 
 - [x] Customers can access previously added items in the cart
 
-- [ ] Customers can place orders
+- [x] Customers can place orders
 
 - [ ] Customers can browse their own orders
 

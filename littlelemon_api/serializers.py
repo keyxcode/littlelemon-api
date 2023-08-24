@@ -39,8 +39,11 @@ class CartSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
     class Meta:
-        pass
+        model = Order
+        fields = ["id", "user", "delivery_crew", "status", "total", "date"]
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
