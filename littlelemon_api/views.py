@@ -14,7 +14,7 @@ from .serializers import (
     OrderSerializer,
     OrderItemSerializer,
 )
-from .permissions import IsManager, IsDeliveryCrew
+from .permissions import IsManager
 from .models import MenuItem, Category, Cart, Order, OrderItem
 
 
@@ -225,17 +225,26 @@ def order_details(request, pk):
         return Response(serialized_order_items.data, status=status.HTTP_200_OK)
 
     if request.method == "PUT" or request.method == "PATCH":
-        if not request.user.groups.filter(name="Manager").exists():
+        if (
+            not request.user.groups.filter(name="Manager").exists()
+            and not request.user.groups.filter(name="Delivery Crew").exists()
+            and not request.user.is_superuser
+        ):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        if request.user.groups.filter(name="Delivery Crew").exists() and (
+            "status" not in request.data or len(request.data) > 1
+        ):
+            return Response(
+                {"message": "Delivery crew can only change the order status"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
         serialized_order = OrderSerializer(order, data=request.data, partial=True)
         serialized_order.is_valid(raise_exception=True)
         serialized_order.save()
 
         return Response(serialized_order.data)
-
-    if request.method == "PATCH":
-        pass
 
     if request.method == "DELETE":
         if not request.user.groups.filter(name="Manager").exists():
