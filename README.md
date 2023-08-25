@@ -43,10 +43,11 @@
 
 - [x] Customers can browse their own orders
 
-### Base URL: `/api`
-
 ### Note
 - User token is required for all features of the API with the exception of registering and viewing the menu
+
+---
+## Djoser Auth Base URL: `/auth`
 
 ### User registration and token generation endpoints
 
@@ -74,6 +75,7 @@
         - password
 
 ---
+## Restaurant API Base URL: `/api`
 
 ### User group management endpoints
 

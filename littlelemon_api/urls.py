@@ -6,8 +6,6 @@ router = SimpleRouter()
 router.register("menu-items", views.MenuItemsViewsSet, basename="menu-items")
 
 urlpatterns = [
-    path("", include("djoser.urls")),
-    path("", include("djoser.urls.authtoken")),
     path("", include(router.urls)),
     path("groups/manager/users", views.managers_list),
     path("groups/manager/users/<int:pk>", views.managers_details),
