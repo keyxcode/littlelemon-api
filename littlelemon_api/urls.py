@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import SimpleRouter
 from . import views
 
-router = SimpleRouter(trailing_slash=False)
+router = SimpleRouter()
 router.register("menu-items", views.MenuItemsViewsSet, basename="menu-items")
 
 urlpatterns = [
