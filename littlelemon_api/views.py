@@ -1,8 +1,9 @@
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, throttle_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework import generics, status
 from rest_framework import viewsets
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 
@@ -20,6 +21,7 @@ from .models import MenuItem, Category, Cart, Order, OrderItem
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAdminUser])
+@throttle_classes([UserRateThrottle, AnonRateThrottle])
 def managers_list(request):
     if request.method == "GET":
         users = User.objects.filter(groups__name="Manager")
@@ -49,6 +51,7 @@ def managers_list(request):
 
 @api_view(["DELETE"])
 @permission_classes([IsAdminUser])
+@throttle_classes([UserRateThrottle, AnonRateThrottle])
 def managers_details(request, pk):
     user = get_object_or_404(User, pk=pk)
     managers = Group.objects.get(name="Manager")
@@ -59,6 +62,7 @@ def managers_details(request, pk):
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAdminUser | IsManager])
+@throttle_classes([UserRateThrottle, AnonRateThrottle])
 def delivery_crew_list(request):
     print(request.user)
     if request.method == "GET":
@@ -89,6 +93,7 @@ def delivery_crew_list(request):
 
 @api_view(["DELETE"])
 @permission_classes([IsAdminUser | IsManager])
+@throttle_classes([UserRateThrottle, AnonRateThrottle])
 def delivery_crew_details(request, pk):
     user = get_object_or_404(User, pk=pk)
     delivery_crew = Group.objects.get(name="Delivery Crew")
@@ -100,6 +105,7 @@ def delivery_crew_details(request, pk):
 class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     def get_permissions(self):
         self.permission_classes = [IsAuthenticated]
@@ -111,6 +117,7 @@ class CategoryList(generics.ListCreateAPIView):
 class MenuItemsViewsSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
     ordering_fields = ["price"]
     filterset_fields = ["title", "category"]
 
@@ -126,6 +133,7 @@ class MenuItemsViewsSet(viewsets.ModelViewSet):
 
 @api_view(["GET", "POST", "DELETE"])
 @permission_classes([IsAuthenticated])
+@throttle_classes([UserRateThrottle, AnonRateThrottle])
 def cart_list(request):
     if request.method == "GET":
         cart_items = Cart.objects.filter(user=request.user)
@@ -164,6 +172,7 @@ def cart_list(request):
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
+@throttle_classes([UserRateThrottle, AnonRateThrottle])
 def order_list(request):
     if request.method == "GET":
         if (
@@ -207,6 +216,7 @@ def order_list(request):
 
 @api_view(["GET", "PUT", "PATCH", "DELETE"])
 @permission_classes([IsAuthenticated])
+@throttle_classes([UserRateThrottle, AnonRateThrottle])
 def order_details(request, pk):
     order = Order.objects.get(pk=pk)
 

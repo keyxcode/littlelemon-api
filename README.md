@@ -15,11 +15,11 @@
 
 - [x] Managers can assign users to the delivery crew
 
-- [ ] Managers can assign orders to the delivery crew
+- [x] Managers can assign orders to the delivery crew
 
 - [x] The delivery crew can access orders assigned to them
 
-- [ ] The delivery crew can update an order as delivered
+- [x] The delivery crew can update an order as delivered
 
 - [x] Customers can register
 
