@@ -224,8 +224,16 @@ def order_details(request, pk):
 
         return Response(serialized_order_items.data, status=status.HTTP_200_OK)
 
-    if request.method == "PUT":
-        pass
+    if request.method == "PUT" or request.method == "PATCH":
+        if not request.user.groups.filter(name="Manager").exists():
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        serialized_order = OrderSerializer(order, data=request.data, partial=True)
+        serialized_order.is_valid(raise_exception=True)
+        serialized_order.save()
+
+        return Response(serialized_order.data)
+
     if request.method == "PATCH":
         pass
 
