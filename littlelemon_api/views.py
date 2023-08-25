@@ -219,8 +219,9 @@ def order_details(request, pk):
     if request.method == "GET":
         if (
             request.user != order.user
-            and not request.user.groups.filter(name="Delivery Crew").exists()
-            and not request.user.groups.filter(name="Manager").exists()
+            and not request.user.groups.filter(
+                name__in=["Delivery Crew", "Manager"]
+            ).exists()
             and not request.user.is_superuser
         ):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
@@ -232,8 +233,9 @@ def order_details(request, pk):
 
     if request.method == "PUT" or request.method == "PATCH":
         if (
-            not request.user.groups.filter(name="Manager").exists()
-            and not request.user.groups.filter(name="Delivery Crew").exists()
+            not request.user.groups.filter(
+                name__in=["Delivery Crew", "Manager"]
+            ).exists()
             and not request.user.is_superuser
         ):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
