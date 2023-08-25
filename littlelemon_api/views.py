@@ -167,7 +167,7 @@ def cart_list(request):
 def order_list(request):
     if request.method == "GET":
         if (
-            request.user.groups.filter(name="Managers").exists()
+            request.user.groups.filter(name="Manager").exists()
             or request.user.is_superuser
         ):
             orders = Order.objects.all()
@@ -207,12 +207,31 @@ def order_list(request):
 
 @api_view(["GET", "PUT", "PATCH", "DELETE"])
 @permission_classes([IsAuthenticated])
-def order_details(request):
+def order_details(request, pk):
+    order = Order.objects.get(pk=pk)
+
     if request.method == "GET":
-        pass
+        if (
+            request.user != order.user
+            and not request.user.groups.filter(name="Delivery Crew").exists()
+            and not request.user.groups.filter(name="Manager").exists()
+            and not request.user.is_superuser
+        ):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        order_items = OrderItem.objects.filter(order=order)
+        serialized_order_items = OrderItemSerializer(order_items, many=True)
+
+        return Response(serialized_order_items.data, status=status.HTTP_200_OK)
+
     if request.method == "PUT":
         pass
     if request.method == "PATCH":
         pass
+
     if request.method == "DELETE":
-        pass
+        if not request.user.groups.filter(name="Manager").exists():
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

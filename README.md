@@ -41,7 +41,7 @@
 
 - [x] Customers can place orders
 
-- [ ] Customers can browse their own orders
+- [x] Customers can browse their own orders
 
 ### Base URL: `/api`
 
@@ -161,6 +161,7 @@
 - GET
     - Customer: Returns all items for this order id. If the order ID doesn’t belong to the current user, it displays an appropriate HTTP error status code
 - PUT, PATCH
-    - Delivery Crew: A delivery crew can use this endpoint to update the order status to 0 or 1. The delivery crew will not be able to update anything else in this order.
+    - Managers: Can assign a delivery crew member to this order or update the order status to 0 or 1
+    - Delivery Crew: Can update the order status to 0 or 1 and nothing else.
 - DELETE
-    - Manager: Deletes this order
+    - Managers: Deletes this order
