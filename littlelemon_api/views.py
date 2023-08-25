@@ -25,9 +25,9 @@ from .models import MenuItem, Category, Cart, Order, OrderItem
 def managers_list(request):
     if request.method == "GET":
         users = User.objects.filter(groups__name="Manager")
-        serializer = UserSerializer(users, many=True)
+        serialized_users = UserSerializer(users, many=True)
 
-        return Response(serializer.data)
+        return Response(serialized_users.data)
 
     if request.method == "POST":
         username = request.POST.get("username", None)
@@ -45,8 +45,6 @@ def managers_list(request):
         return Response(
             {"message": "missing username"}, status=status.HTTP_400_BAD_REQUEST
         )
-
-    return Response({"message": "unknown error"})
 
 
 @api_view(["DELETE"])
@@ -67,9 +65,9 @@ def delivery_crew_list(request):
     print(request.user)
     if request.method == "GET":
         users = User.objects.filter(groups__name="Delivery Crew")
-        serializer = UserSerializer(users, many=True)
+        serialized_users = UserSerializer(users, many=True)
 
-        return Response(serializer.data)
+        return Response(serialized_users.data)
 
     if request.method == "POST":
         username = request.POST.get("username", None)
@@ -87,8 +85,6 @@ def delivery_crew_list(request):
         return Response(
             {"message": "missing username"}, status=status.HTTP_400_BAD_REQUEST
         )
-
-    return Response({"message": "unknown error"})
 
 
 @api_view(["DELETE"])
@@ -109,7 +105,7 @@ class CategoryList(generics.ListCreateAPIView):
 
     def get_permissions(self):
         self.permission_classes = [IsAuthenticated]
-        if self.request.method == "POST" and self.request.data:
+        if self.request.method == "POST":
             self.permission_classes = [IsAdminUser]
         return super(CategoryList, self).get_permissions()
 
