@@ -13,7 +13,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "slug", "title"]
-        read_only_fields = ["id", "slug"]
+        read_only_fields = ["slug"]
 
 
 class MenuItemSerializer(serializers.ModelSerializer):

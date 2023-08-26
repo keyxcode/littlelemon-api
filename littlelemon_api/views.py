@@ -141,19 +141,15 @@ def cart_list(request):
         serialized_item = CartSerializer(data=request.data)
         serialized_item.is_valid(raise_exception=True)
 
-        item_pk = request.POST.get("menuitem")
-        quantity = request.POST.get("quantity")
-
-        menu_item = get_object_or_404(MenuItem, pk=item_pk)
+        menu_item = serialized_item.validated_data["menuitem"]
+        quantity = serialized_item.validated_data["quantity"]
         unit_price = menu_item.price
         price = unit_price * int(quantity)
 
         try:
-            created_item = Cart.objects.create(
+            created_item = serialized_item.save(
                 user=request.user,
-                menuitem=menu_item,
-                quantity=quantity,
-                unit_price=menu_item.price,
+                unit_price=unit_price,
                 price=price,
             )
         except Exception as e:
