@@ -32,18 +32,18 @@ def managers_list(request):
     if request.method == "POST":
         username = request.POST.get("username", None)
 
-        if username:
-            user = get_object_or_404(User, username=username)
-            managers = Group.objects.get(name="Manager")
-            managers.user_set.add(user)
-
+        if username is None:
             return Response(
-                {"message": f"assigned user {user} to group Manager"},
-                status=status.HTTP_201_CREATED,
+                {"message": "missing username"}, status=status.HTTP_400_BAD_REQUEST
             )
 
+        user = get_object_or_404(User, username=username)
+        managers = Group.objects.get(name="Manager")
+        managers.user_set.add(user)
+
         return Response(
-            {"message": "missing username"}, status=status.HTTP_400_BAD_REQUEST
+            {"message": f"assigned user {user} to group Manager"},
+            status=status.HTTP_201_CREATED,
         )
 
 
@@ -72,18 +72,18 @@ def delivery_crew_list(request):
     if request.method == "POST":
         username = request.POST.get("username", None)
 
-        if username:
-            user = get_object_or_404(User, username=username)
-            delivery_crew = Group.objects.get(name="Delivery Crew")
-            delivery_crew.user_set.add(user)
-
+        if username is None:
             return Response(
-                {"message": f"assigned user {user} to group Delivery Crew"},
-                status=status.HTTP_201_CREATED,
+                {"message": "missing username"}, status=status.HTTP_400_BAD_REQUEST
             )
 
+        user = get_object_or_404(User, username=username)
+        delivery_crew = Group.objects.get(name="Delivery Crew")
+        delivery_crew.user_set.add(user)
+
         return Response(
-            {"message": "missing username"}, status=status.HTTP_400_BAD_REQUEST
+            {"message": f"assigned user {user} to group Delivery Crew"},
+            status=status.HTTP_201_CREATED,
         )
 
 
