@@ -107,7 +107,7 @@ class CategoryList(generics.ListCreateAPIView):
         self.permission_classes = [IsAuthenticated]
         if self.request.method == "POST":
             self.permission_classes = [IsAdminUser]
-        return super(CategoryList, self).get_permissions()
+        return [permission() for permission in permission_classes]
 
 
 class MenuItemsViewsSet(viewsets.ModelViewSet):
@@ -116,6 +116,7 @@ class MenuItemsViewsSet(viewsets.ModelViewSet):
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
     ordering_fields = ["price"]
     filterset_fields = ["title", "category"]
+    search_fields = ["title", "category__title"]
 
     def get_permissions(self):
         if self.action == "list" or self.action == "retrieve":
