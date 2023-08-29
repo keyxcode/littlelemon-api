@@ -107,7 +107,7 @@ class CategoryList(generics.ListCreateAPIView):
         self.permission_classes = [IsAuthenticated]
         if self.request.method == "POST":
             self.permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+        return [permission() for permission in self.permission_classes]
 
 
 class MenuItemsViewsSet(viewsets.ModelViewSet):
